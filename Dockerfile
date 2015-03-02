@@ -33,13 +33,16 @@ RUN influxdb/setup.sh
 
 # Install grafana and configuration
 RUN mkdir /src
-RUN wget http://grafanarel.s3.amazonaws.com/grafana-1.9.0.tar.gz -O /src/grafana.tar.gz
-RUN cd /src && tar -xvf grafana.tar.gz && mv grafana-1.9.0 grafana
+RUN wget http://grafanarel.s3.amazonaws.com/grafana-1.9.1.tar.gz -O /src/grafana.tar.gz
+RUN cd /src && tar -xvf grafana.tar.gz && mv grafana-1.9.1 grafana
 ADD grafana/config.js.tpl /src/grafana/config.js.tpl
 ADD grafana/rbx-dash.json /src/grafana/app/dashboards/rbx-dash.json
 ADD grafana/setup.sh /src/grafana/setup.sh
 # Add nginx configuration
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
+
+# So we can mount the data outside the container
+VOLUME ["/opt/influxdb/shared/data/db"]
 
 # Add supervisord configuration and set default command for `docker run`
 ADD supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

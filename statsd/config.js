@@ -109,7 +109,7 @@ Optional Variables:
     host: '127.0.0.1',   // InfluxDB host. (default 127.0.0.1)
     port: 8086,          // InfluxDB port. (default 8086)
     ssl: false,          // InfluxDB is hosted over SSL. (default false)
-    database: 'rbx',  // InfluxDB database instance. (required)
+    database: 'jg',      // InfluxDB database instance. (required)
     username: 'root',    // InfluxDB database username. (required)
     password: 'root',    // InfluxDB database password. (required)
     flush: {
