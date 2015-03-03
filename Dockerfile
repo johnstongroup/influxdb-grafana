@@ -28,8 +28,6 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN wget http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb
 RUN dpkg -i influxdb_latest_amd64.deb
 ADD influxdb/setup.sh /influxdb/setup.sh
-# Set up influxdb and create the databases
-RUN influxdb/setup.sh
 
 # Install grafana and configuration
 RUN mkdir /src
@@ -43,6 +41,10 @@ ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
 # So we can mount the data outside the container
 VOLUME ["/opt/influxdb/shared/data/db"]
+
+# Set up influxdb and create the databases
+# (after the volume is exported so we don't lose the data)
+RUN influxdb/setup.sh
 
 # Add supervisord configuration and set default command for `docker run`
 ADD supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
